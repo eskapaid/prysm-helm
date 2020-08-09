@@ -61,19 +61,19 @@ spec:
           resources: 
 {{ toYaml .Values.resources | indent 12 }}
           livenessProbe:
-            failureThreshold: 60
             httpGet:
               path: /healthz
               port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
-            initialDelaySeconds: 60
+            failureThreshold: 60
+            initialDelaySeconds: 600
             periodSeconds: 60
             timeoutSeconds: 5
           readinessProbe:
-            failureThreshold: 3
             httpGet:
               path: /healthz
               port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
-            initialDelaySeconds: 20
+            failureThreshold: 3
+            initialDelaySeconds: 60
             periodSeconds: 10
             timeoutSeconds: 5
           volumeMounts:
