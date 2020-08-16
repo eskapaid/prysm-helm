@@ -74,7 +74,7 @@ spec:
               mountPath: /wallet/direct/accounts
               readOnly: true
             - name: password
-              mountPath: /wallet/pasword
+              mountPath: /wallet/password
               readOnly: true
             {{- if .Values.config }}
             - name: config-volume
