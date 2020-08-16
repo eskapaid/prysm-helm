@@ -97,6 +97,7 @@ spec:
             - key: all-accounts.keystore.json
               path: direct/accounts
             - key: password.txt
+              path: ./
   volumeClaimTemplates:
     - metadata:
         name: validator-data-storage
