@@ -67,6 +67,9 @@ spec:
           volumeMounts:
             - name: validator-data-storage
               mountPath: /data
+            - name: keystore
+              readOnly: true
+              mountPath: /data/keystore
             {{- if .Values.config }}
             - name: config-volume
               mountPath: /data/config
@@ -84,6 +87,16 @@ spec:
           configMap:
             name: validator-config
         {{- end }}
+        - name: keystore
+          secret:
+            secretName: keystore
+            defaultMode: 0400
+            items:
+            - key: keymanageropts.json
+              path: direct
+            - key: all-accounts.keystore.json
+              path: direct/accounts
+            - key: password.txt
   volumeClaimTemplates:
     - metadata:
         name: validator-data-storage
