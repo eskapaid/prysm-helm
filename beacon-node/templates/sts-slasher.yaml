@@ -1,0 +1,64 @@
+{{- if .Values.slasher.slasher.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "prysm-beacon-node.fullname" . }}-slasher
+  labels:
+    app: {{ template "prysm-beacon-node.name" . }}-slasher
+    {{- include "prysm-beacon-node.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "prysm-beacon-node.name" . }}-slasher
+  serviceName: {{ include "prysm-beacon-node.fullname" . }}-slasher
+  replicas: {{ .Values.slasher.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "prysm-beacon-node.name" . }}-slasher
+        {{- include "prysm-beacon-node.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-slasher
+          image: "{{ .Values.slasher.image.repository }}:{{ .Values.slasher.image.tag }}"
+          {{- if .Values.slasher.args }}
+          args:
+{{ toYaml .Values.slasher.args | indent 12 }}
+          {{- end }}
+          resources: 
+{{ toYaml .Values.slasher.resources | indent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.slasher.ports.metrics }}
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.slasher.ports.metrics }}
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: slasher-data
+              mountPath: /data
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.slasher.ports.metrics }}
+            - name: rpc
+              containerPort: {{ .Values.slasher.ports.rpc  }}
+  volumeClaimTemplates:
+    - metadata:
+        name: slasher-data
+      spec:
+        storageClassName: manual
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.slasher.slasher.storage.capacity }}
+{{- end }}

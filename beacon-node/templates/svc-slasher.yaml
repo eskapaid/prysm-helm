@@ -1,0 +1,19 @@
+{{- if .Values.slasher.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "prysm-beacon-node.fullname" . }}-slasher
+  labels:
+    app: {{ template "prysm-beacon-node.name" . }}-slasher
+    {{- include "prysm-beacon-node.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ template "prysm-beacon-node.name" . }}-slasher
+  ports:
+    - name: metrics
+      port: {{ .Values.slasher.ports.metrics }}
+      protocol: TCP
+    - name: rpc
+      port: {{ .Values.slasher.ports.rpc  }}
+      protocol: TCP
+{{- end }}
