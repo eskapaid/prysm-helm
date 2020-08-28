@@ -77,4 +77,4 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: {{ .Values.storage.capacity | quote }}
+            storage: {{ .Values.storage.capacity }}
