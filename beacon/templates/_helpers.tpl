@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "prysm-beacon-node.name" -}}
+{{- define "prysm-beacon.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "prysm-beacon-node.fullname" -}}
+{{- define "prysm-beacon.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "prysm-beacon-node.chart" -}}
+{{- define "prysm-beacon.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "prysm-beacon-node.labels" -}}
-helm.sh/chart: {{ include "prysm-beacon-node.chart" . }}
-{{ include "prysm-beacon-node.selectorLabels" . }}
+{{- define "prysm-beacon.labels" -}}
+helm.sh/chart: {{ include "prysm-beacon.chart" . }}
+{{ include "prysm-beacon.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "prysm-beacon-node.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "prysm-beacon-node.name" . }}
+{{- define "prysm-beacon.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "prysm-beacon.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "prysm-beacon-node.serviceAccountName" -}}
+{{- define "prysm-beacon.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "prysm-beacon-node.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "prysm-beacon.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

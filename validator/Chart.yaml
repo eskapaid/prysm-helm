@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: validator
+name: prysm-validator
 description: A Helm chart for the Prysmatic Validator Client
 
 type: application

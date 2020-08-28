@@ -1,27 +1,28 @@
----
-image: gcr.io/prysmaticlabs/prysm/beacon-chain
-imageTag: latest
+image:
+  repository: gcr.io/prysmaticlabs/prysm/beacon-chain
+  tag: latest
 
 replicas: 1
 
 containerArgs:
-  - "--config-file"
-  - "/data/config/beacon-client.yaml"
+  - --config-file
+  - /data/config/prysm-beacon.yaml
 
 config:
-  datadir: ./data
+  datadir: /data
   p2p-tcp-port: 13000
+  monitoring-port: 8080
   log-file: /data/beacon.log
   verbosity: info
 
 storage:
-  capacity: "20Gi"
+  capacity: 20Gi
 
 resources:
   limits:
-    memory: "8Gi"
+    memory: 8Gi
   requests:
-    memory: "4Gi"
+    memory: 4Gi
 
 slasher:
   enabled: false
@@ -31,7 +32,7 @@ slasher:
     tag: latest
 
   args:
-    - --beacon-rpc-provider=beacon-client:4000
+    - --beacon-rpc-provider=prysm-beacon:4000
     - --datadir=/data
     - --rpc-host=0.0.0.0
     - --monitoring-host=0.0.0.0

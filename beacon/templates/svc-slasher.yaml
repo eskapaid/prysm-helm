@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "prysm-beacon-node.fullname" . }}-slasher
+  name: {{ include "prysm-beacon.fullname" . }}-slasher
   labels:
-    app: {{ template "prysm-beacon-node.name" . }}-slasher
-    {{- include "prysm-beacon-node.labels" . | nindent 4 }}
+    app: {{ template "prysm-beacon.name" . }}-slasher
+    {{- include "prysm-beacon.labels" . | nindent 4 }}
 spec:
   selector:
-    app: {{ template "prysm-beacon-node.name" . }}-slasher
+    app: {{ template "prysm-beacon.name" . }}-slasher
   ports:
     - name: metrics
       port: {{ .Values.slasher.ports.metrics }}

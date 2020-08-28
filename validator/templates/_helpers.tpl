@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "beaconchart.name" -}}
+{{- define "prysm-validator.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "beaconchart.fullname" -}}
+{{- define "prysm-validator.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "beaconchart.chart" -}}
+{{- define "prysm-validator.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "beaconchart.labels" -}}
-helm.sh/chart: {{ include "beaconchart.chart" . }}
-{{ include "beaconchart.selectorLabels" . }}
+{{- define "prysm-validator.labels" -}}
+helm.sh/chart: {{ include "prysm-validator.chart" . }}
+{{ include "prysm-validator.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "beaconchart.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "beaconchart.name" . }}
+{{- define "prysm-validator.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "prysm-validator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "beaconchart.serviceAccountName" -}}
+{{- define "prysm-validator.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "beaconchart.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "prysm-validator.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: beacon-data
+  name: {{ template "prysm-beacon.fullname" . }}-data
   labels:
+    {{- include "prysm-beacon.labels" . | nindent 4 }}
     type: local
   annotations:
     "helm.sh/resource-policy": keep

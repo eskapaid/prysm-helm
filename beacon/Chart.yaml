@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: prysm-beacon-node
+name: prysm-beacon
 description: A Helm chart for the Prysmatic Beacon Chain Client
 
 type: application
