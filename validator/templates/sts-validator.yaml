@@ -1,56 +1,23 @@
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: validator
-  labels: 
-    app: validator
-spec:
-  selector:
-    app: validator
-  ports:
-    - protocol: TCP
-      port: {{ (index .Values "config" "p2p-tcp-port") | default 13000 }}
-      name: p2p-tcp
-    - protocol: UDP
-      port: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
-      name: p2p-udp
-    - protocol: TCP
-      port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
-      name: monitoring
-
-{{- if .Values.config }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: validator-config
-data:
-  validator.yaml: |
-{{ toYaml .Values.config | indent 4 }}
-{{- end }}
-
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: validator
+  name: {{ template "prysm-validator.fullname" . }}
   labels:
-    app: validator
+    {{- include "prysm-validator.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: validator
-  serviceName: validator
+    {{- include "prysm-validator.selectorLabels" . | nindent 6 }}
+  serviceName: {{ template "prysm-validator.fullname" . }}
   replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
-        app: validator
+      {{- include "prysm-validator.labels" . | nindent 8 }}
     spec:
       containers:
-        - name: validator
-          image: "{{ .Values.image }}:{{ .Values.imageTag | default "latest" }}"
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- if .Values.config }}
           args: ["--config-file","/data/config/validator.yaml"]
           {{- end }}
@@ -65,7 +32,7 @@ spec:
             periodSeconds: 60
             timeoutSeconds: 5
           volumeMounts:
-            - name: validator-data-storage
+            - name: validator-data
               mountPath: /data
             - name: keymanageropts
               mountPath: /wallet/direct
@@ -77,7 +44,7 @@ spec:
               mountPath: /wallet/password
               readOnly: true
             {{- if .Values.config }}
-            - name: config-volume
+            - name: validator-config
               mountPath: /data/config
             {{- end }}
           ports:
@@ -89,7 +56,7 @@ spec:
               containerPort: {{ (index .Values "config" "monitoring-port") | default 8080 }}
       volumes:
         {{- if .Values.config }}
-        - name: config-volume
+        - name: validator-config
           configMap:
             name: validator-config
         {{- end }}
@@ -104,7 +71,7 @@ spec:
             secretName: password
   volumeClaimTemplates:
     - metadata:
-        name: validator-data-storage
+        name: validator-data
       spec:
         storageClassName: manual
         accessModes: 

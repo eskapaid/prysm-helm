@@ -1,22 +1,21 @@
----
-image: gcr.io/prysmaticlabs/prysm/validator
-imageTag: latest
+image:
+  repository: gcr.io/prysmaticlabs/prysm/validator
+  tag: latest
 
 replicas: 1
 
 config:
-  datadir: /data/
-  p2p-host-ip: 
+  datadir: /data
   p2p-tcp-port: 13000
-  beacon-rpc-provider: "beacon-client:4000"
+  beacon-rpc-provider: prysm-beacon:4000
   log-file: /data/validator.log
-  verbosity: debug
+  verbosity: info
 
 storage:
-  capacity: "1Gi"
+  capacity: 1Gi
 
 resources:
   limits:
-    memory: "1Gi"
+    memory: 1Gi
   requests:
-    memory: "1Gi"
+    memory: 1Gi
