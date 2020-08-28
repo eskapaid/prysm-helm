@@ -32,7 +32,7 @@ spec:
             periodSeconds: 60
             timeoutSeconds: 5
           volumeMounts:
-            - name: validator-data
+            - name: {{ template "prysm-validator.fullname" . }}-data
               mountPath: /data
             - name: keymanageropts
               mountPath: /wallet/direct
@@ -44,7 +44,7 @@ spec:
               mountPath: /wallet/password
               readOnly: true
             {{- if .Values.config }}
-            - name: {{ template "prysm-validator.fullname" . }}-config-config
+            - name: config
               mountPath: /data/config
             {{- end }}
           ports:
@@ -56,9 +56,9 @@ spec:
               containerPort: {{ (index .Values "config" "monitoring-port") | default 8080 }}
       volumes:
         {{- if .Values.config }}
-        - name: {{ template "prysm-validator.fullname" . }}-config-config
+        - name: config
           configMap:
-            name: {{ template "prysm-validator.fullname" . }}-config-config
+            name: {{ template "prysm-validator.fullname" . }}-config
         {{- end }}
         - name: keymanageropts
           secret:

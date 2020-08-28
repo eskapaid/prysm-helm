@@ -44,7 +44,7 @@ spec:
             - name: {{ template "prysm-beacon.fullname" . }}-data
               mountPath: /data
             {{- if .Values.config }}
-            - name: {{ template "prysm-beacon.fullname" . }}-config
+            - name: config
               mountPath: /data/config
             {{- end }}
           ports:
@@ -58,7 +58,7 @@ spec:
               containerPort: {{ (index .Values "config" "rpc-port") | default 4000 }}
       volumes:
         {{- if .Values.config }}
-        - name: {{ template "prysm-beacon.fullname" . }}-config
+        - name: config
           configMap:
             name: {{ template "prysm-beacon.fullname" . }}-config
         {{- end }}
