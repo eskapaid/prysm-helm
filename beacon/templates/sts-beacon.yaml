@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-      {{- include "prysm-beacon.labels" . | nindent 8 }}
+      {{- include "prysm-beacon.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -66,9 +66,8 @@ spec:
     - metadata:
         name: beacon-data
       spec:
-        storageClassName: manual
         accessModes: 
-          - "ReadWriteOnce"
+          - ReadWriteOnce
         resources:
           requests:
             storage: {{ .Values.storage.capacity | quote }}

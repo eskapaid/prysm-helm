@@ -4,7 +4,6 @@ metadata:
   name: {{ template "prysm-validator.fullname" . }}-data
   labels:
     {{- include "prysm-validator.labels" . | nindent 4 }}
-    type: local
   annotations:
     "helm.sh/resource-policy": keep
 spec:
