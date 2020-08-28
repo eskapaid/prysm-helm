@@ -41,10 +41,10 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           volumeMounts:
-            - name: beacon-data
+            - name: {{ template "prysm-beacon.fullname" . }}-data
               mountPath: /data
             {{- if .Values.config }}
-            - name: beacon-config
+            - name: {{ template "prysm-beacon.fullname" . }}-config
               mountPath: /data/config
             {{- end }}
           ports:
@@ -58,13 +58,13 @@ spec:
               containerPort: {{ (index .Values "config" "rpc-port") | default 4000 }}
       volumes:
         {{- if .Values.config }}
-        - name: beacon-config
+        - name: {{ template "prysm-beacon.fullname" . }}-config
           configMap:
-            name: beacon-config
+            name: {{ template "prysm-beacon.fullname" . }}-config
         {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: beacon-data
+        name: {{ template "prysm-beacon.fullname" . }}-data
       spec:
         storageClassName: manual
         accessModes: 

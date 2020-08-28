@@ -44,7 +44,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 10
           volumeMounts:
-            - name: slasher-data
+            - name: {{ template "prysm-beacon.fullname" . }}-slasher
               mountPath: /data
           ports:
             - name: metrics
@@ -53,7 +53,7 @@ spec:
               containerPort: {{ .Values.slasher.ports.rpc  }}
   volumeClaimTemplates:
     - metadata:
-        name: slasher-data
+        name: {{ template "prysm-beacon.fullname" . }}-slasher
       spec:
         storageClassName: manual
         accessModes: 

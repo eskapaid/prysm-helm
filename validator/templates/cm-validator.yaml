@@ -4,6 +4,6 @@ kind: ConfigMap
 metadata:
   name: {{ template "prysm-validator.fullname" . }}-config
 data:
-  validator.yaml: |
+  prysm-validator.yaml: |
 {{ toYaml .Values.config | indent 4 }}
 {{- end }}

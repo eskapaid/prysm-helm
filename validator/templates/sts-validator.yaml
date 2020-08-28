@@ -44,7 +44,7 @@ spec:
               mountPath: /wallet/password
               readOnly: true
             {{- if .Values.config }}
-            - name: validator-config
+            - name: {{ template "prysm-validator.fullname" . }}-config-config
               mountPath: /data/config
             {{- end }}
           ports:
@@ -56,9 +56,9 @@ spec:
               containerPort: {{ (index .Values "config" "monitoring-port") | default 8080 }}
       volumes:
         {{- if .Values.config }}
-        - name: validator-config
+        - name: {{ template "prysm-validator.fullname" . }}-config-config
           configMap:
-            name: validator-config
+            name: {{ template "prysm-validator.fullname" . }}-config-config
         {{- end }}
         - name: keymanageropts
           secret:
@@ -71,7 +71,7 @@ spec:
             secretName: password
   volumeClaimTemplates:
     - metadata:
-        name: validator-data
+        name: {{ template "prysm-validator.fullname" . }}-data
       spec:
         storageClassName: manual
         accessModes: 
