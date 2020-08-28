@@ -32,7 +32,7 @@ spec:
             periodSeconds: 60
             timeoutSeconds: 5
           volumeMounts:
-            - name: {{ template "prysm-validator.fullname" . }}-data
+            - name: validator-data
               mountPath: /data
             - name: keymanageropts
               mountPath: /wallet/direct
@@ -71,7 +71,7 @@ spec:
             secretName: password
   volumeClaimTemplates:
     - metadata:
-        name: {{ template "prysm-validator.fullname" . }}-data
+        name: validator-data
       spec:
         storageClassName: manual
         accessModes: 
