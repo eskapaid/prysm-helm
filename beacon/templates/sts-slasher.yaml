@@ -55,6 +55,7 @@ spec:
     - metadata:
         name: slasher-data
       spec:
+        storageClassName: manual
         accessModes: 
           - ReadWriteOnce
         resources:

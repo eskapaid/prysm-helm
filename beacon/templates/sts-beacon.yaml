@@ -66,6 +66,7 @@ spec:
     - metadata:
         name: beacon-data
       spec:
+        storageClassName: manual
         accessModes: 
           - ReadWriteOnce
         resources:

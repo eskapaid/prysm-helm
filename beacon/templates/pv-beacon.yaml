@@ -7,6 +7,8 @@ metadata:
   annotations:
     "helm.sh/resource-policy": keep
 spec:
+  storageClassName: manual
+  persistentVolumeReclaimPolicy: Retain
   accessModes:
     - ReadWriteOnce
   capacity:

@@ -19,7 +19,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- if .Values.config }}
-          args: ["--config-file","/data/config/validator.yaml"]
+          args: ["--config-file","/data/config/prysm-validator.yaml"]
           {{- end }}
           resources: 
 {{ toYaml .Values.resources | indent 12 }}
@@ -73,6 +73,7 @@ spec:
     - metadata:
         name: validator-data
       spec:
+        storageClassName: manual
         accessModes: 
           - ReadWriteOnce
         resources:
