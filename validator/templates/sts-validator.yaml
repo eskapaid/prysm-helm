@@ -56,15 +56,6 @@ spec:
           configMap:
             name: {{ template "prysm-validator.fullname" . }}-config
         {{- end }}
-        - name: keymanageropts
-          secret:
-            secretName: keymanageropts
-        - name: keystore
-          secret:
-            secretName: keystore
-        - name: password
-          secret:
-            secretName: password
         {{- range .Values.secretMounts }}
         - name: {{ .name }}
           secret:
