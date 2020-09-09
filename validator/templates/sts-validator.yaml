@@ -34,15 +34,11 @@ spec:
           volumeMounts:
             - name: validator-data
               mountPath: /data
-            - name: keymanageropts
-              mountPath: /wallet/direct
+            {{- range .Values.secretMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
               readOnly: true
-            - name: keystore
-              mountPath: /wallet/direct/accounts
-              readOnly: true
-            - name: password
-              mountPath: /wallet/password
-              readOnly: true
+            {{- end }}
             {{- if .Values.config }}
             - name: config
               mountPath: /data/config
@@ -69,11 +65,15 @@ spec:
         - name: password
           secret:
             secretName: password
+        {{- range .Values.secretMounts }}
+        - name: {{ .name }}
+          secret:
+            secretName: {{ .secretName }}
+        {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: validator-data
       spec:
-        storageClassName: manual
         accessModes: 
           - ReadWriteOnce
         resources:

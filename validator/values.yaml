@@ -11,6 +11,18 @@ config:
   log-file: /data/validator.log
   verbosity: info
 
+# A list of secrets and their paths to mount inside the pod
+secretMounts: []
+#  - name: keymanageropts
+#    secretName: keymanageropts
+#    mountPath: /wallet/direct
+#  - name: keystore
+#    secretName: keystore
+#    mountPath: /wallet/direct/accounts
+#  - name: password
+#    secretName: password
+#    mountPath: /wallet/password
+
 storage:
   capacity: 1Gi
 
