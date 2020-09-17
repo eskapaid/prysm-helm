@@ -15,6 +15,20 @@ spec:
       labels:
       {{- include "prysm-validator.selectorLabels" . | nindent 8 }}
     spec:
+      initContainers:
+        - name: setup
+          image: busybox
+          command:
+          - /bin/sh
+          - -c
+          - mkdir -p /data/wallet && cp -rL /data/mount/* /data/wallet/
+          volumeMounts:
+          - name: validator-data
+            mountPath: /data
+          {{- range .Values.secretMounts }}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -34,11 +48,6 @@ spec:
           volumeMounts:
             - name: validator-data
               mountPath: /data
-            {{- range .Values.secretMounts }}
-            - name: {{ .name }}
-              mountPath: {{ .mountPath }}
-              readOnly: true
-            {{- end }}
             {{- if .Values.config }}
             - name: config
               mountPath: /data/config
