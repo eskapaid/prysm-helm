@@ -9,7 +9,7 @@ spec:
     matchLabels:
     {{- include "prysm-beacon.selectorLabels" . | nindent 6 }}
   serviceName: {{ template "prysm-beacon.fullname" . }}
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
@@ -18,6 +18,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.containerArgs }}
           args:
 {{ toYaml .Values.containerArgs | indent 12 }}
@@ -62,6 +63,10 @@ spec:
           configMap:
             name: {{ template "prysm-beacon.fullname" . }}-config
         {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
   volumeClaimTemplates:
     - metadata:
         name: beacon-data

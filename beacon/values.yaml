@@ -1,8 +1,9 @@
 image:
   repository: gcr.io/prysmaticlabs/prysm/beacon-chain
   tag: latest
+  pullPolicy: IfNotPresent
 
-replicas: 1
+replicaCount: 1
 
 containerArgs:
   - --config-file
@@ -24,12 +25,18 @@ resources:
   requests:
     memory: 4Gi
 
+affinity: {}
+
+
+
 slasher:
   enabled: false
 
   image:
     repository: gcr.io/prysmaticlabs/prysm/slasher
     tag: latest
+    pullPolicy: IfNotPresent
+
 
   args:
     - --beacon-rpc-provider=prysm-beacon:4000
