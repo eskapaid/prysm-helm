@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: {{ template "prysm-beacon.name" . }}-slasher
   serviceName: {{ include "prysm-beacon.fullname" . }}-slasher
-  replicas: {{ .Values.slasher.replicas }}
+  replicas: 1
   template:
     metadata:
       labels:

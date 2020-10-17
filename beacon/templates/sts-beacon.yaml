@@ -9,7 +9,7 @@ spec:
     matchLabels:
     {{- include "prysm-beacon.selectorLabels" . | nindent 6 }}
   serviceName: {{ template "prysm-beacon.fullname" . }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   template:
     metadata:
       labels:

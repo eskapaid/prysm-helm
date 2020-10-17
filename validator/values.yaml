@@ -2,8 +2,6 @@ image:
   repository: gcr.io/prysmaticlabs/prysm/validator
   tag: latest
 
-replicas: 1
-
 config:
   datadir: /data
   p2p-tcp-port: 13000
@@ -33,3 +31,34 @@ resources:
     memory: 1Gi
   requests:
     memory: 1Gi
+
+
+slasher:
+  enabled: false
+
+  image:
+    repository: gcr.io/prysmaticlabs/prysm/slasher
+    tag: latest
+    pullPolicy: IfNotPresent
+
+
+  args:
+    - --beacon-rpc-provider=prysm-beacon:4000
+    - --datadir=/data
+    - --rpc-host=0.0.0.0
+    - --monitoring-host=0.0.0.0
+
+  storage:
+    capacity: 3Gi
+
+  ports:
+    metrics: 8082
+    rpc: 4002
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi

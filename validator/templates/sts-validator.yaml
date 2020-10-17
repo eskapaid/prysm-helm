@@ -9,7 +9,7 @@ spec:
     matchLabels:
     {{- include "prysm-validator.selectorLabels" . | nindent 6 }}
   serviceName: {{ template "prysm-validator.fullname" . }}
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   template:
     metadata:
       labels:
