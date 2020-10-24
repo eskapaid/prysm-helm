@@ -32,8 +32,9 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- if .Values.config }}
-          args: ["--config-file","/data/config/prysm-validator.yaml"]
+          {{- if .Values.containerArgs }}
+          args:
+{{ toYaml .Values.containerArgs | indent 12 }}
           {{- end }}
           resources: 
 {{ toYaml .Values.resources | indent 12 }}
