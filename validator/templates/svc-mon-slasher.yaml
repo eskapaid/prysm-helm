@@ -5,10 +5,14 @@ metadata:
   name: {{ template "prysm-validator.fullname" . }}-slasher
   labels:
     {{- include "prysm-validator.labels" . | nindent 4 }}-slasher
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
       app: {{ template "prysm-validator.name" . }}-slasher
   endpoints:
-  - port: metrics
+  - path: /metrics
+    port: metrics
+  namespaceSelector:
+    any: true
 {{- end }}
