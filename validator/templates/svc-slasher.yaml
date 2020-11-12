@@ -11,7 +11,7 @@ spec:
     app: {{ template "prysm-validator.name" . }}-slasher
   ports:
     - name: metrics
-      port: {{ .Values.slasher.ports.metrics }}
+      port: {{ .Values.slasher.ports.metrics  | default 8082 }}
       protocol: TCP
     - name: rpc
       port: {{ .Values.slasher.ports.rpc  }}

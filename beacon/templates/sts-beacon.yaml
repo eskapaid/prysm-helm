@@ -28,7 +28,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
+              port: {{ (index .Values "config" "metrics-port") | default 8080 }}
             failureThreshold: 60
             initialDelaySeconds: 600
             periodSeconds: 60
@@ -36,7 +36,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /healthz
-              port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
+              port: {{ (index .Values "config" "metrics-port") | default 8080 }}
             failureThreshold: 3
             initialDelaySeconds: 60
             periodSeconds: 10
@@ -53,8 +53,8 @@ spec:
               containerPort: {{ (index .Values "config" "p2p-tcp-port") | default 13000 }}
             - name: p2p-udp
               containerPort: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
-            - name: monitoring
-              containerPort: {{ (index .Values "config" "monitoring-port") | default 8080 }}
+            - name: metrics
+              containerPort: {{ (index .Values "config" "metrics-port") | default 8080 }}
             - name: rpc
               containerPort: {{ (index .Values "config" "rpc-port") | default 4000 }}
       volumes:

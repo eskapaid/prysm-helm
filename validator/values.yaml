@@ -38,6 +38,9 @@ resources:
   requests:
     memory: 1Gi
 
+servicemonitor:
+  enabled: false
+
 
 slasher:
   enabled: false

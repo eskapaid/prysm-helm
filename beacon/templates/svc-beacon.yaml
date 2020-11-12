@@ -15,8 +15,8 @@ spec:
       port: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
       name: p2p-udp
     - protocol: TCP
-      port: {{ (index .Values "config" "monitoring-port") | default 8080 }}
-      name: monitoring
+      port: {{ (index .Values "config" "metrics-port") | default 8080 }}
+      name: metrics
     - protocol: TCP
       port: {{ (index .Values "config" "rpc-port") | default 4000 }}
       name: rpc

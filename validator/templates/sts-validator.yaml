@@ -58,8 +58,8 @@ spec:
               containerPort: {{ (index .Values "config" "p2p-tcp-port") | default 13000 }}
             - name: p2p-udp
               containerPort: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
-            - name: monitoring
-              containerPort: {{ (index .Values "config" "monitoring-port") | default 8080 }}
+            - name: metrics
+              containerPort: {{ (index .Values "config" "metrics-port") | default 8081 }}
       volumes:
         {{- if .Values.config }}
         - name: config

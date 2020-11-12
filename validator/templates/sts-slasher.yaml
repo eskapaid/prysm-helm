@@ -48,7 +48,7 @@ spec:
               mountPath: /data
           ports:
             - name: metrics
-              containerPort: {{ .Values.slasher.ports.metrics }}
+              containerPort: {{ .Values.slasher.ports.metrics | default 8082 }}
             - name: rpc
               containerPort: {{ .Values.slasher.ports.rpc  }}
   volumeClaimTemplates:

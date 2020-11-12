@@ -1,0 +1,14 @@
+{{- if .Values.servicemonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "prysm-beacon.fullname" . }}
+  labels:
+    {{- include "prysm-beacon.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "prysm-beacon.selectorLabels" . | nindent 4 }}
+  endpoints:
+  - port: metrics
+{{- end }}
