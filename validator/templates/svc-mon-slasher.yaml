@@ -5,6 +5,7 @@ metadata:
   name: {{ template "prysm-validator.fullname" . }}-slasher
   labels:
     {{- include "prysm-validator.labels" . | nindent 4 }}-slasher
+  namespace: monitor
 spec:
   selector:
     matchLabels:
