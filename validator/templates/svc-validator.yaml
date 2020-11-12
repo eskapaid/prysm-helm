@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: {{ template "prysm-validator.fullname" . }}
   labels: 
-    {{- include "prysm-validator.labels" . | nindent 4 }}
     app: {{ template "prysm-validator.name" . }}
 spec:
   selector:
