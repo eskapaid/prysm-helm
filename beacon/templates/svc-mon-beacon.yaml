@@ -5,7 +5,6 @@ metadata:
   name: {{ template "prysm-beacon.fullname" . }}
   labels:
     {{- include "prysm-beacon.labels" . | nindent 4 }}
-  namespace: monitor
 spec:
   selector:
     matchLabels:

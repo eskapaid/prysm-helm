@@ -5,11 +5,10 @@ metadata:
   name: {{ template "prysm-validator.fullname" . }}
   labels:
     {{- include "prysm-validator.labels" . | nindent 4 }}
-  namespace: monitor
 spec:
   selector:
     matchLabels:
-      app: {{ template "prysm-validator.name" . }}s
+      app: {{ template "prysm-validator.name" . }}
   endpoints:
   - port: metrics
 {{- end }}
