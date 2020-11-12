@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "prysm-beacon.fullname" . }}-slasher
+  name: {{ template "prysm-validator.fullname" . }}-slasher
   labels:
-    app: {{ template "prysm-beacon.name" . }}-slasher
-    {{- include "prysm-beacon.labels" . | nindent 4 }}
+    {{- include "prysm-validator.labels" . | nindent 4 }}
+    app: {{ template "prysm-validator.name" . }}-slasher
 spec:
   selector:
     matchLabels:
-      app: {{ template "prysm-beacon.name" . }}-slasher
-  serviceName: {{ include "prysm-beacon.fullname" . }}-slasher
+      app: {{ template "prysm-validator.name" . }}-slasher
+  serviceName: {{ include "prysm-validator.fullname" . }}-slasher
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{ template "prysm-beacon.name" . }}-slasher
-        {{- include "prysm-beacon.selectorLabels" . | nindent 8 }}
+        {{- include "prysm-validator.selectorLabels" . | nindent 8 }}
+        app: {{ template "prysm-validator.name" . }}-slasher
     spec:
       containers:
         - name: {{ .Chart.Name }}-slasher

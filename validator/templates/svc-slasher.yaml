@@ -4,8 +4,8 @@ kind: Service
 metadata:
   name: {{ include "prysm-validator.fullname" . }}-slasher
   labels:
-    app: {{ template "prysm-validator.name" . }}-slasher
     {{- include "prysm-validator.labels" . | nindent 4 }}
+    app: {{ template "prysm-validator.name" . }}-slasher
 spec:
   selector:
     app: {{ template "prysm-validator.name" . }}-slasher

@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "prysm-beacon.selectorLabels" . | nindent 4 }}
+      app: {{ template "prysm-beacon.name" . }}
   endpoints:
   - port: metrics
 {{- end }}

@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "prysm-validator.selectorLabels" . | nindent 4 }}-slasher
+      app: {{ template "prysm-validator.name" . }}-slasher
   endpoints:
   - port: metrics
 {{- end }}
