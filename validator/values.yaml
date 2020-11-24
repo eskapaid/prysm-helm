@@ -6,7 +6,7 @@ containerArgs:
   - --config-file
   - /data/config/prysm-validator.yaml
   - --accept-terms-of-use
-  - --medalla
+  - --pyrmont
 
 config:
   datadir: /data
