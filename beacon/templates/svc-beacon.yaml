@@ -9,15 +9,15 @@ spec:
   selector:
     {{- include "prysm-beacon.selectorLabels" . | nindent 4 }}
   ports:
-    - protocol: TCP
-      port: {{ (index .Values "config" "p2p-tcp-port") | default 13000 }}
-      name: p2p-tcp
-    - protocol: UDP
-      port: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
-      name: p2p-udp
-    - protocol: TCP
-      port: {{ (index .Values "config" "metrics-port") | default 8080 }}
-      name: metrics
-    - protocol: TCP
-      port: {{ (index .Values "config" "rpc-port") | default 4000 }}
-      name: rpc
+    - name: metrics
+      port: {{ .Values.ports.metrics  }}
+      protocol: TCP
+    - name: rpc
+      port: {{ .Values.ports.rpc  }}
+      protocol: TCP
+    - name: discovery-tcp
+      port: {{ .Values.ports.discovery  }}
+      protocol: TCP
+    - name: discovery-udp
+      port: {{ .Values.ports.discovery  }}
+      protocol: UDP

@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "prysm-beacon.fullname" . }}
+  name: {{ include "prysm-beacon.fullname" . }}
   labels:
     {{- include "prysm-beacon.labels" . | nindent 4 }}
-    app: {{ template "prysm-beacon.name" . }}
+    app: {{ include "prysm-beacon.name" . }}
 spec:
   selector:
     matchLabels:
     {{- include "prysm-beacon.selectorLabels" . | nindent 6 }}
-  serviceName: {{ template "prysm-beacon.fullname" . }}
+  serviceName: {{ include "prysm-beacon.fullname" . }}
   replicas: 1
   template:
     metadata:
@@ -50,19 +50,29 @@ spec:
               mountPath: /data/config
             {{- end }}
           ports:
-            - name: p2p-tcp
-              containerPort: {{ (index .Values "config" "p2p-tcp-port") | default 13000 }}
-            - name: p2p-udp
-              containerPort: {{ (index .Values "config" "p2p-udp-port") | default 12000 }}
-            - name: metrics
-              containerPort: {{ (index .Values "config" "metrics-port") | default 8080 }}
             - name: rpc
-              containerPort: {{ (index .Values "config" "rpc-port") | default 4000 }}
+              containerPort: {{ .Values.ports.rpc }}
+              protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.ports.metrics }}
+              protocol: TCP
+            - name: discovery-tcp
+              containerPort: {{ .Values.ports.discovery }}
+              protocol: TCP
+              {{- if .Values.hostPort.enabled }}
+              hostPort: {{ .Values.ports.discovery }}
+              {{- end }}
+            - name: discovery-udp
+              containerPort: {{ .Values.ports.discovery }}
+              protocol: UDP
+              {{- if .Values.hostPort.enabled }}
+              hostPort: {{ .Values.ports.discovery }}
+              {{- end }}
       volumes:
         {{- if .Values.config }}
         - name: config
           configMap:
-            name: {{ template "prysm-beacon.fullname" . }}-config
+            name: {{ include "prysm-beacon.fullname" . }}-config
         {{- end }}
     {{- with .Values.affinity }}
       affinity:
@@ -70,7 +80,7 @@ spec:
     {{- end }}
   volumeClaimTemplates:
     - metadata:
-        name: beacon-data
+        name: {{ include "prysm-beacon.fullname" . }}-data
       spec:
         accessModes: 
           - ReadWriteOnce
